@@ -1,0 +1,79 @@
+body {
+  background-color: #181818;
+}
+
+.cell {
+  background-color: #ccc;
+}
+
+.nb1 {
+  color: #6767ff;
+}
+
+.nb2 {
+  color: #00aa00;
+}
+
+.nb3 {
+  color: #aa0000;
+}
+
+.nb4 {
+  color: #ff9090;
+}
+
+.nb5 {
+  color: #952793;
+}
+
+.nb6 {
+  color: #8ADE18;
+}
+
+.nb7 {
+  color: #8D128D;
+}
+
+#game table{
+  margin: 20px auto;
+  border: 1px solid #000;
+}
+
+
+table td {
+  border: 1px solid #333;
+  text-align: center;
+  font-size: 20px;
+  font-weight: bold;
+  width: 30px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  user-select: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+table td.hide {
+  color : #ccc;
+  background-color: #ccc;
+}
+
+table td.flag {
+  color : red;
+  font-family: FontAwesome;
+  content: "\f024";
+}
+
+.reveal {
+  color : #333;
+}
+
+.exploded {
+  color: red;
+}
+
+.container-fluid { 
+  height: 100vh;
+}
