@@ -366,27 +366,19 @@ var Game = function(container){
   }
 
   this._isTotalRevealAndFlagged = function(){
-    var isReveal = true, isAllFlaged = true;
-    loop1:
     for(var x = 0; x < _self._x; x++){
-      loop2:
       for(var y = 0; y < _self._y; y++){
-
         var htmlCel = _self._getHtmlCell(x, y);
         var cell = _self._getCell(x, y);
-        if (isReveal && htmlCel !== null && !htmlCel.hasClass('flag') && htmlCel.hasClass('hide')){
-          isReveal = false;
-          break loop1;
+        if (htmlCel !== null && !htmlCel.hasClass('flag') && htmlCel.hasClass('hide')){
+          return false;
         }
-
         if (cell == bomb && !htmlCel.hasClass('flag')){
-          isAllFlaged = false;
-          break loop1;
+          return false;
         }
-        
       }
     }
-    return isReveal && isAllFlaged;
+    return true;
   };
 
   this._checkVictory = function(){
