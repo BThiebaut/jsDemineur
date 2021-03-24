@@ -46,6 +46,7 @@ table td {
   font-size: 20px;
   font-weight: bold;
   width: 30px;
+  height: 33px;
   overflow: hidden;
   text-overflow: ellipsis;
   user-select: none;

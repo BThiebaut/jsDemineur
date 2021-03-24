@@ -28,8 +28,6 @@ var Game = function(container){
     _self._y = null,
     _self._bombers = null,
     _self._htmlGrid = null,
-    _self._debug = true,
-    _self._debugGrid = false,
     _self._timer = 0,
     _self._placed = 0,
     _self._nbCellTotal = 0,
@@ -292,6 +290,7 @@ var Game = function(container){
       htmlEl.removeClass('hide');
     }
     _self._totalClick++;
+    _self._checkVictory()
   }
 
   this._firstClick = function(htmlEl){
@@ -366,8 +365,32 @@ var Game = function(container){
 
   }
 
+  this._isTotalRevealAndFlagged = function(){
+    var isReveal = true, isAllFlaged = true;
+    loop1:
+    for(var x = 0; x < _self._x; x++){
+      loop2:
+      for(var y = 0; y < _self._y; y++){
+
+        var htmlCel = _self._getHtmlCell(x, y);
+        var cell = _self._getCell(x, y);
+        if (isReveal && htmlCel !== null && !htmlCel.hasClass('flag') && htmlCel.hasClass('hide')){
+          isReveal = false;
+          break loop1;
+        }
+
+        if (cell == bomb && !htmlCel.hasClass('flag')){
+          isAllFlaged = false;
+          break loop1;
+        }
+        
+      }
+    }
+    return isReveal && isAllFlaged;
+  };
+
   this._checkVictory = function(){
-    if (_self._correct == _self._bombers){
+    if (_self._isTotalRevealAndFlagged()){
       clearInterval(_self._timerInterval);
       $('#victory').removeClass('d-none');
       $('.total-time').text(_self._timer + ' secondes');
@@ -401,6 +424,11 @@ var Game = function(container){
       $('#errorForm').text("Trop de bombes !").removeClass('d-none');
       return;
     }
+
+    _self._x = parseInt(_self._x);
+    _self._y = parseInt(_self._y);
+    _self._bombers = parseInt(_self._bombers);
+
     _self._initBomb();
     _self._initNumbers();
     _self._draw();
