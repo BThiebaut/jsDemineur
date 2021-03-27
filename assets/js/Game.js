@@ -10,6 +10,8 @@ var Game = function(container){
   this._debugGrid = false,
   this._timer = 0,
   this._placed = 0,
+  this._nbBombplaced = 0,
+  this._flags = 0,
   this._nbCellTotal = 0,
   this._totalClick = 0,
   this._correct = 0,
@@ -30,15 +32,18 @@ var Game = function(container){
     _self._htmlGrid = null,
     _self._timer = 0,
     _self._placed = 0,
+    _self._nbBombplaced = 0,
     _self._nbCellTotal = 0,
     _self._totalClick = 0,
     _self._correct = 0,
-    _self._lock = false;
+    _self._lock = false
+    _self._flags = 0;
 
-    $('#errorForm').addClass('d-none')
+    $('#errorForm').addClass('d-none');
     $('#victory').addClass('d-none');
     $('#defeat').addClass('d-none');
     $('#currentTimer').addClass('d-none');
+    $('#currentBombers').addClass('d-none');
 
     if (_self._timerInterval !== null){
       clearInterval(_self._timerInterval);
@@ -212,6 +217,15 @@ var Game = function(container){
     _self._container.innerHTML = _self._htmlGrid;
   };
 
+  this._startFlagCounter = function(){
+    _self._countRealBombs();
+
+    if ($('#currentBombers').hasClass('d-none')){
+      $('#currentBombers').removeClass('d-none');
+      $('#bombers').text('0/' + _self._nbBombplaced);
+    }
+  };
+
   this._startTimer = function(){
     if ($('#currentTimer').hasClass('d-none')){
       $('#currentTimer').removeClass('d-none');
@@ -222,12 +236,25 @@ var Game = function(container){
     }
   };
 
+  this._countRealBombs = function(){
+    _self._nbBombplaced = 0;
+    for(var x = 0; x < _self._x; x++){
+      for(var y = 0; y < _self._y; y++){
+        var cell = _self._getCell(x, y);
+        if (cell === bomb){
+          _self._nbBombplaced++;
+        }
+      }
+    }
+  };
+
   this._gameEvents = function(){
     $('td').on('click', function(e){
       if (_self._lock){
         return;
       }
       _self._startTimer();
+      _self._startFlagCounter();
       _self._onLeftClick($(this));
     });
     $('td').on('contextmenu', function(e){
@@ -236,6 +263,7 @@ var Game = function(container){
         return;
       }
       _self._startTimer();
+      _self._startFlagCounter();
       _self._onRightClick($(this));
 
     });
@@ -252,14 +280,16 @@ var Game = function(container){
     var cellHtml = "";
     if (!wasFlagged){
       cellHtml = '<i class="fa fa-flag"></i>';
+      _self._flags++;
     }else {
+      _self._flags--;
       if (cell === bomb){
         cellHtml = '<i class="fa fa-bomb"></i>';
       }else if (cell !== empty){
         cellHtml = cell;
       }
     }
-
+    $('#bombers').text(_self._flags + '/' + _self._nbBombplaced);
     htmlEl.html(cellHtml);
     htmlEl.toggleClass('flag');  
 
@@ -272,7 +302,7 @@ var Game = function(container){
   }
 
   this._onLeftClick = function(htmlEl){
-    if (!htmlEl.hasClass('hide')){
+    if (!htmlEl.hasClass('hide') || htmlEl.hasClass('flag')){
       return;
     }
     var cell = _self._htmlToCell(htmlEl);
@@ -420,6 +450,10 @@ var Game = function(container){
     _self._x = parseInt(_self._x);
     _self._y = parseInt(_self._y);
     _self._bombers = parseInt(_self._bombers);
+    if (_self._bombers < 5){
+      $('#errorForm').text("Pas assez de bombes, minimum 5").removeClass('d-none');
+      return;
+    }
 
     _self._initBomb();
     _self._initNumbers();

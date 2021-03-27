@@ -15,15 +15,15 @@
       <div class="row">
         <div class="form-group col">
           <label for"bomber">Nombre de bombes</label>
-          <input class="form-control" type="number" name="bombers" value="20">
+          <input class="form-control" type="number" name="bombers" value="50" min="5">
         </div>
         <div class="form-group col">
           <label for"x">X</label>
-          <input class="form-control" type="number" name="x" value="20">
+          <input class="form-control" type="number" name="x" value="20" min="5">
         </div>
         <div class="form-group col">
           <label for"y">Y</label>
-          <input class="form-control" type="number" name="y" value="20">
+          <input class="form-control" type="number" name="y" value="20" min="5">
         </div>
       </div>
       <div class="text-center">
@@ -34,6 +34,9 @@
     <div class="text-center d-none" id="currentTimer">
       Temps : <span id="timer"></span>
     </div>
+    <div class="text-center d-none" id="currentBombers">
+      Flags : <span id="bombers"></span>
+    </div>
     <div class="container">
       <div class="alert alert-success text-center d-none mt-3 mb-3" id="victory">Victoire !<br/>Temps total : <span class="total-time"></span></div>
       <div class="alert alert-danger text-center d-none mt-3 mb-3" id="defeat">Défaite !<br/>Temps total : <span class="total-time"></span></div>
@@ -41,23 +44,6 @@
     
     <div id="game"></div>
     
-  </div>
-
-    <!-- Modal -->
-  <div class="modal fade" id="victoryModal" tabindex="-1" role="dialog" aria-labelledby="victoryModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="victoryModalLabel">Victoire !</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            temps total : <span class="time"></span>
-        </div>
-      </div>
-    </div>
   </div>
 
   <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
